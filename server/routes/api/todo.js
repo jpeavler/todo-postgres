@@ -3,7 +3,7 @@ const pool = require('../../db');   //Allows us to talk to our database
 const router = express.Router();    //Allows us to setup different routes
 
 //Get all todos
-router.get("/", async(req, res) => {    //req represents the request and res represents the result to send out
+router.get("/", async (req, res) => {    //req represents the request and res represents the result to send out
     try {
         const allTodos = await pool.query("SELECT * FROM todo");    //pool.query allows us to use postgres commands to talk to database
         res.json(allTodos.rows);    //Return the requested todo list in an array of JSON objects
@@ -13,7 +13,7 @@ router.get("/", async(req, res) => {    //req represents the request and res rep
 });
 
 //Get one todo by its todo_id
-router.get('/:id', async(req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;  //pulls the id out from the request URI
         const todo = await pool.query("SELECT * FROM todo WHERE todo_id = $1", [id]);   //WHERE operator returns all values that match following condition
@@ -24,7 +24,7 @@ router.get('/:id', async(req, res) => {
 });
 
 //Post a new todo to the database
-router.post("/", async(req, res) => {   //async-await allows us to wait for the data to come
+router.post("/", async (req, res) => {   //async-await allows us to wait for the data to come
     try {
         const { description } = req.body;   //pull out the description value out of req.body
         const newTodo = await pool.query(
@@ -33,6 +33,21 @@ router.post("/", async(req, res) => {   //async-await allows us to wait for the 
         );
         res.json(newTodo.rows[0]);  //Since newTodo gets extra data than we want, we request to get the first value in rows
     } catch(err) {
+        console.error(err.message);
+    }
+});
+
+//Put router to update the description of a given todo item (by todo_id)
+router.put("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;  //pull the id value out of the params
+        const { description } = req.body;   //pull the description out of the body
+        const updateTodo = await pool.query(
+            "UPDATE todo SET description = $1 WHERE todo_id = $2", 
+            [description, id]   //$1 is description and $2 is id
+        );
+        res.json("Todo was updated");   //send simple message back. Could use "SELECT * FROM todo WHERE todo_id = $1", [id]
+    } catch (error) {
         console.error(err.message);
     }
 });
