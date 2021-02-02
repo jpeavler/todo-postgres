@@ -61,7 +61,7 @@ router.delete("/:id", async (req, res) => {
             [id]
         );
         res.json("Todo was deleted");
-    } catch (error) {
+    } catch (err) {
         console.error(err.message);
     }
 });
