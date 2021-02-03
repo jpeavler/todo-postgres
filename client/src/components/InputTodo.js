@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from "react";
+import { useTodo, useUpdateTodo } from "../TodoContext";
 
 const InputTodo = () => {
     const [description, setDesc] = useState("");
+    const todos = useTodo();
+    const setTodos = useUpdateTodo();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -13,6 +16,10 @@ const InputTodo = () => {
                 body: JSON.stringify(body)
             });
             console.log(response);
+            const jsonData = await response.json();
+            const todosCopy = [...todos];
+            todosCopy.push(jsonData);
+            setTodos(todosCopy);
             setDesc("");
         } catch (err) {
             console.log(err.message);
@@ -20,7 +27,6 @@ const InputTodo = () => {
     }
     return (
         <Fragment>
-            
             <form className="d-flex" onSubmit={handleSubmit}>
                 <input className="form-control"
                     value={description} 

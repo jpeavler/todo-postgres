@@ -1,6 +1,9 @@
 import React from "react";
+import { useTodo, useUpdateTodo} from "../TodoContext";
 
-const DeleteTodo = ({id, todos, setTodos}) => {
+const DeleteTodo = ({ id }) => {
+    const todos = useTodo();
+    const setTodos = useUpdateTodo();
     const removeTodo = async (id) => {
         try {
             const deleteTodo = await fetch(`${process.env.REACT_APP_API_URL}/${id}`, {
