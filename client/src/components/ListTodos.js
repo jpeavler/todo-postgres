@@ -1,34 +1,31 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useEffect} from "react";
+import { useTodo, useUpdateTodo } from "../TodoContext";
 import DeleteTodo from "./DeleteTodo";
 
 const ListTodos = () => {
-    const [todos, setTodos] = useState([]);
+    const todos = useTodo();
+    const setTodos = useUpdateTodo();
 
     useEffect(() => {
-        getTodos();
-    }, []);
-
-    const getTodos = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}`);
-            const jsonData = await response.json();
-            setTodos(jsonData);
-        } catch (err) {
-            console.error(err.message);
+        const getTodos = async () => {
+            try {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}`);
+                const jsonData = await response.json();
+                setTodos(jsonData);
+            } catch (err) {
+                console.error(err.message);
+            }
         }
-    }
+        getTodos();
+    }, [setTodos]);
 
     const displayTodos = todos.map((todo) => {
-        console.log("Todo's Id", todo.todo_id);
         return (
             <tr key={todo.todo_id}>
                 <td>{todo.description}</td>
                 <td>Edit</td>
                 <td>
-                    <DeleteTodo id={todo.todo_id}
-                        todos={todos}
-                        setTodos={setTodos}
-                    />
+                    <DeleteTodo id={todo.todo_id}/>
                 </td>
             </tr>
         )
