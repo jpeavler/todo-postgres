@@ -43,10 +43,10 @@ router.put("/:id", async (req, res) => {
         const { id } = req.params;  //pull the id value out of the params
         const { description } = req.body;   //pull the description out of the body
         const updateTodo = await pool.query(
-            "UPDATE todo SET description = $1 WHERE todo_id = $2", 
+            "UPDATE todo SET description = $1 WHERE todo_id = $2 RETURNING *", 
             [description, id]   //$1 is description and $2 is id
         );
-        res.json("Todo was updated");   //send simple message back. Could use "SELECT * FROM todo WHERE todo_id = $1", [id]
+        res.json(updateTodo.rows[0]);
     } catch (error) {
         console.error(err.message);
     }
