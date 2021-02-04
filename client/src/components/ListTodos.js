@@ -1,5 +1,6 @@
 import React, {Fragment, useEffect} from "react";
 import { useTodo, useUpdateTodo } from "../TodoContext";
+import EditTodo from "./EditTodo";
 import DeleteTodo from "./DeleteTodo";
 
 const ListTodos = () => {
@@ -23,7 +24,7 @@ const ListTodos = () => {
         return (
             <tr key={todo.todo_id}>
                 <td>{todo.description}</td>
-                <td>Edit</td>
+                <td><EditTodo todo={todo}/></td>
                 <td>
                     <DeleteTodo id={todo.todo_id}/>
                 </td>
