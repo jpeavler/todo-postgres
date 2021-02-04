@@ -42,7 +42,8 @@ const EditTodo = ({ todo }) => {
                 tabIndex="-1" 
                 role="dialog" 
                 aria-labelledby="exampleModalLabel" 
-                aria-hidden="true">
+                aria-hidden="true"
+                onClick={() => setDescription(todo.description)}>
                 <div className="modal-dialog" 
                     role="document">
                     <div className="modal-content">
@@ -54,7 +55,8 @@ const EditTodo = ({ todo }) => {
                             <button type="button" 
                                 className="close" 
                                 data-dismiss="modal" 
-                                aria-label="Close">
+                                aria-label="Close"
+                                onClick={() => setDescription(todo.description)}>
                                 <span aria-hidden="true">
                                     &times;
                                 </span>
@@ -75,7 +77,8 @@ const EditTodo = ({ todo }) => {
                             </button>
                             <button type="button" 
                                 className="btn btn-secondary" 
-                                data-dismiss="modal">
+                                data-dismiss="modal"
+                                onClick={() => setDescription(todo.description)}>
                                 Close
                             </button>
                         </div>
